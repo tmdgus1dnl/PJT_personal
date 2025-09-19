@@ -601,3 +601,13 @@
   font-size: 0.875rem;
   margin-left: 2.25rem;
 }
+
+
+/* chatbot.css (또는 전역 CSS) */
+.message .bubble {
+  white-space: pre-wrap;     /* ↔️ 개행/연속 공백 유지 */
+  line-height: 1.6;          /* 읽기 쉬운 행간 */
+  word-break: keep-all;      /* 한국어 단어 중간 줄바꿈 방지 */
+}
+
+

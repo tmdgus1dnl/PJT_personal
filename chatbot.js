@@ -2,7 +2,7 @@
 //
 // AI 챗봇 페이지를 위한 모듈입니다. 기존 프로젝트에서 HomePage, WeatherPage,
 // PortfolioPage, LogPage와 유사한 형태로 사용하기 위해 export 형태를 맞췄습니다.
-// 
+//
 // 이 모듈은 다음 기능을 제공합니다:
 // 1. 사용자가 텍스트를 입력하고 전송하면 채팅창에 즉시 표시합니다.
 // 2. 음성 입력 버튼을 누르면 Chrome Speech API를 호출하여 음성을 텍스트로 변환하고
@@ -23,29 +23,57 @@ import {
   addDoc,
   getDocs,
   query,
-  orderBy
+  orderBy,
+  limit,              // ✅ limit 추가
 } from 'https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js';
 
 const API_BASE = "http://localhost:8080";
+
 // 대화 맥락(누적)
 const messages = [
   { role: "system", content: "You are a helpful assistant." }
 ];
-
 
 // Firebase 초기화(로그 페이지와 동일 함수 활용)
 function ensureApp() {
   return getApps().length ? getApp() : initializeApp(firebaseConfig);
 }
 
+/**
+ * Firestore에서 최근 telematics 로그 메시지를 가져와 시스템 컨텍스트로 사용.
+ * - 상위 20개 (createdAt desc)
+ * - 각 라인 포맷: ISO_TIMESTAMP | RAW_MESSAGE
+ */
+async function fetchLogsForContext() {
+  try {
+    const db = getFirestore(ensureApp());
+    const col = collection(db, 'telematics_logs');
+    const qy = query(col, orderBy('createdAt', 'desc'), limit(20));
+    const snap = await getDocs(qy);
+
+    const lines = [];
+    snap.forEach((doc) => {
+      const data = doc.data();
+      const ts = data?.createdAt?.toDate ? data.createdAt.toDate().toISOString() : "";
+      const msg = data?.message;
+      let text = "";
+      if (typeof msg === 'string') text = msg;
+      else if (msg && typeof msg === 'object') text = JSON.stringify(msg);
+      if (text) lines.push(`${ts} | ${text}`);
+    });
+
+    return lines; // 최신이 위(내림차순)
+  } catch (err) {
+    console.error('Failed to fetch logs for context:', err);
+    return [];
+  }
+}
+
 export const ChatbotPage = (() => {
   let rec = null;
   let recognizing = false;
 
-  /**
-   * Firebase에서 기존 대화 기록을 불러옵니다.
-   * 로드된 메시지는 시간순으로 chat-area 요소에 추가됩니다.
-   */
+  /** Firebase에서 기존 대화 기록을 불러옵니다. */
   async function loadHistory(root) {
     try {
       const db = getFirestore(ensureApp());
@@ -76,21 +104,14 @@ export const ChatbotPage = (() => {
     }
   }
 
-  /**
-   * 채팅창에 메시지를 추가합니다.
-   * role: 'user' | 'assistant'
-   * text: 표시할 문자열
-   * isLoading: 로딩 인디케이터 여부
-   */
+  /** 채팅창에 메시지를 추가합니다. */
   function appendMessage(root, role, text, isLoading = false) {
     const area = root.querySelector('#chat-area');
     const msgDiv = document.createElement('div');
     msgDiv.className = `message ${role}`;
     msgDiv.innerHTML = `
       <div class="avatar">${role === 'user' ? '👤' : '🤖'}</div>
-      <div class="bubble ${isLoading ? 'loading' : ''}">
-        ${text}
-      </div>
+      <div class="bubble ${isLoading ? 'loading' : ''}">${text}</div>
     `;
     area.appendChild(msgDiv);
     scrollToBottom(root);
@@ -104,47 +125,26 @@ export const ChatbotPage = (() => {
   }
 
   /**
-   * OpenAI API를 호출하여 AI 응답을 가져옵니다.
-   * 실제 구현에서는 서버 측에서 안전하게 API 키를 처리해야 합니다.
+   * OpenAI 백엔드 프록시 호출: messages 배열을 받아 그대로 전송
    */
-  async function fetchAIResponse(userText) {
-    // 예시: 1.5초 후에 사용자 입력을 포함한 응답을 반환
-    // await new Promise((resolve) => setTimeout(resolve, 1500));
-    // return 'AI 응답 예시: "' + userText + '"에 대한 분석 결과입니다.';
-      const resp = await fetch(`${API_BASE}/api/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages })
-      });
-      if (!resp.ok) {
-        const text = await resp.text().catch(() => "");
-        throw new Error(`API 호출 실패: ${resp.status} ${text}`);
-      }
-      const data = await resp.json();
-      return data.content ?? "";
+  async function fetchAIResponse(msgsToSend) {
+    const resp = await fetch(`${API_BASE}/api/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: msgsToSend ?? messages }),
+    });
+    if (!resp.ok) {
+      const text = await resp.text().catch(() => "");
+      throw new Error(`API 호출 실패: ${resp.status} ${text}`);
+    }
+    const data = await resp.json();
+    return data.content ?? "";
   }
 
   /** 사용자의 입력을 처리합니다. */
   async function handleUserInput(root, text) {
-    // if (!text.trim()) return;
-    // appendMessage(root, 'user', text);
-    // await saveMessage('user', text);
-    // // 로딩 메시지를 먼저 추가합니다.
-    // const loadingMsg = appendMessage(root, 'assistant', '...응답 생성 중...', true);
-    // try {
-    //   const aiResponse = await fetchAIResponse(text.trim());
-    //   const bubble = loadingMsg.querySelector('.bubble');
-    //   bubble.classList.remove('loading');
-    //   bubble.textContent = aiResponse;
-    //   await saveMessage('assistant', aiResponse);
-    //   speakText(aiResponse);
-    // } catch (err) {
-    //   const bubble = loadingMsg.querySelector('.bubble');
-    //   bubble.classList.remove('loading');
-    //   bubble.textContent = '응답을 불러오지 못했습니다.';
-    // }
-    if (!text.trim()) return;
     const userText = text.trim();
+    if (!userText) return;
 
     // 1) 사용자 말풍선
     appendMessage(root, 'user', userText);
@@ -152,28 +152,69 @@ export const ChatbotPage = (() => {
     // 2) 대화 맥락에 user 누적
     messages.push({ role: 'user', content: userText });
 
-    // 3) (선택) Firebase 저장 유지 시 그대로 두기
+    // 3) (선택) Firebase 저장
     await saveMessage('user', userText);
 
     // 4) 로딩 말풍선
     const loadingMsg = appendMessage(root, 'assistant', '...응답 생성 중...', true);
 
     try {
-      // 5) GPT 호출 (messages 전체 전송)
-      const aiResponse = await fetchAIResponse();
+      // 5) 주행데이터 로그 컨텍스트 구성
+      const logLines = await fetchLogsForContext();
 
-      // 6) 로딩 제거 + 실제 텍스트 반영
+      // ✨ 가독성 지침: 모델 출력 형식 고정
+      const formatSystemMsg = {
+        role: 'system',
+        content: [
+          '출력 형식(한국어, 표 금지):',
+          '1) TL;DR: 한 줄 요약.',
+          '2) 주요 이벤트(최대 6개): • 불릿, 각 항목 15자 이내.',
+          '3) 핵심 수치(최대 8줄): 항목: 값',
+          '4) 권장 조치(최대 5개): ☐ 체크박스 불릿',
+          '규칙: 과도한 서술 금지, 줄 사이 한 줄 띄우기, 불필요한 접속사/중복 제거.',
+        ].join('\n')
+      };
+      // 모델이 "주행/텔레매틱스 데이터"로 명확히 인식하도록 지시하는 시스템 프롬프트
+      const sysHeader = [
+        "당신은 차량 텔레매틱스/주행데이터 분석 보조입니다.",
+        "아래 LOG_CONTEXT는 Firestore 'telematics_logs' 컬렉션에서 최근 20개의 주행데이터 메시지를 시간 내림차순으로 가져온 것입니다.",
+        "각 라인의 포맷: ISO_TIMESTAMP | RAW_MESSAGE",
+        "답변 시 가능한 한 LOG_CONTEXT에 포함된 사실만 근거로 사용하세요.",
+        "LOG_CONTEXT에 없는 값은 추정하지 말고, 부족하다고 명시하세요.",
+        "수치/이벤트 요약이나 파이프라인 제안이 필요하면 LOG_CONTEXT 범위 내에서만 처리하세요.",
+      ].join("\n");
+
+      const logsSystemMsg = logLines.length > 0
+        ? { role: 'system', content: `${sysHeader}\n\nLOG_CONTEXT:\n${logLines.join('\n')}` }
+        : null;
+
+      // 6) 보낼 메시지 구성: (기존 system들) + (로그 system) + (나머지 대화)
+      const systemMsgs = messages.filter(m => m.role === 'system');
+      const nonSystemMsgs = messages.filter(m => m.role !== 'system');
+
+      // const sendMsgs = logsSystemMsg
+      //   ? [...systemMsgs, logsSystemMsg, ...nonSystemMsgs]
+      //   : [...systemMsgs, ...nonSystemMsgs];
+      const sendMsgs = logsSystemMsg
+      ? [...systemMsgs, logsSystemMsg, formatSystemMsg, ...nonSystemMsgs]
+      : [...systemMsgs, formatSystemMsg, ...nonSystemMsgs];
+
+
+      // 7) GPT 호출
+      const aiResponse = await fetchAIResponse(sendMsgs);
+
+      // 8) 로딩 제거 + 실제 텍스트 반영
       const bubble = loadingMsg.querySelector('.bubble');
       bubble.classList.remove('loading');
       bubble.textContent = aiResponse;
 
-      // 7) 대화 맥락에 assistant 누적
+      // 9) 대화 맥락에 assistant 누적
       messages.push({ role: 'assistant', content: aiResponse });
 
-      // 8) (선택) Firebase 저장 유지 시 그대로 두기
+      // 10) (선택) 저장
       await saveMessage('assistant', aiResponse);
 
-      // 9) 읽어주기
+      // 11) 읽어주기
       speakText(aiResponse);
     } catch (err) {
       const bubble = loadingMsg.querySelector('.bubble');
@@ -228,7 +269,7 @@ export const ChatbotPage = (() => {
     const inputEl = root.querySelector('#chat-input');
     const sendBtn = root.querySelector('#send-button');
     const voiceBtn = root.querySelector('#voice-button');
-    // 전송 핸들러
+
     const sendHandler = () => {
       const text = inputEl.value;
       inputEl.value = '';
@@ -241,22 +282,19 @@ export const ChatbotPage = (() => {
         sendHandler();
       }
     });
-    // 음성 인식 초기화 및 버튼 바인딩
+
     if (!rec) {
       rec = initSpeechRecognition(root);
     }
     const voiceHandler = () => {
       if (!rec) return;
-      if (recognizing) {
-        rec.stop();
-      } else {
-        rec.start();
-      }
+      if (recognizing) rec.stop();
+      else rec.start();
     };
     voiceBtn?.addEventListener('click', voiceHandler);
-    // 대화 기록 로드
+
     loadHistory(root);
-    // cleanup 함수 반환
+
     return () => {
       sendBtn?.removeEventListener('click', sendHandler);
       inputEl?.removeEventListener('keydown', sendHandler);
@@ -264,5 +302,6 @@ export const ChatbotPage = (() => {
       if (rec && recognizing) rec.stop();
     };
   }
+
   return { init };
 })();
