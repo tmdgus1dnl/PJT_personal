@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="main.css" />
+  <!-- libs -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=56a62e20da8538fcf059056339573539&libraries=services"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./navigation.js"></script>
+    <script type="module" src="./weather.js"></script>
+    <script type="module" src="./portfolio.js"></script>
+    <script type="module" src="./main.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="tablet">
+            <div class="tablet-body">
+                <div class="sidebar">
+                    <div>
+                        <div class="profile-circle">SH</div>
+                        <div class="mt-2">
+                            <strong>한승현</strong><br><small>SSAFY 14기</small>
+                        </div>
+                        <div class="stats mt-4">
+                            <div>Today's Study <span class="float-end">210 min</span></div>
+                            <div>Distance to Employment <span class="float-end">100 km</span></div>
+                            <div>Fuel Level <span class="float-end fuel">99%</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Weather & My Page -->
+                    <button class="nav-button mt-4" id="btn-weather">
+                    <i class="bi bi-cloud-sun"></i><br>Weather
+                    </button>
+                    <button class="nav-button mt-3" id="btn-mypage">
+                    <i class="bi bi-person-lines-fill"></i><br>My Page
+                    </button>
+                    <button class="nav-button mt-3" id="btn-logs">
+                    <i class="bi bi-journal-text"></i><br>Logs
+                    </button>
+                </div>
+
+                <!-- 메인 대시보드 -->
+                <div class="main-panel" id="main-ui"></div>
+            </div>
+
+            <div class="footer-home">
+                <div id="btn-home" style="display: inline-block; cursor: pointer;">
+                    <i class="bi bi-house-door-fill"></i>
+                    <span>Home</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

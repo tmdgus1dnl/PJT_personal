@@ -1,0 +1,84 @@
+<!-- 포트폴리오 -->
+<div class="portfolio w-100" id="portfolio">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">홍길동</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#main">Main</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#skill">Skill</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#stack">Stack</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#closing">Closing</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="main" class="mt-4">
+        <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="./assets/slide1.jpg" class="d-block w-100" alt="Slide 1" style="height: 250px; object-fit: cover;">
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/slide2.jpg" class="d-block w-100" alt="Slide 2" style="height: 250px; object-fit: cover;">
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/slide3.jpg" class="d-block w-100" alt="Slide 3" style="height: 250px; object-fit: cover;">
+            </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+    </section>
+
+    <section id="about" class="mt-5 p-4 bg-light rounded">
+        <div class="card">
+            <div class="card-body">
+            <h4 class="card-title">소개</h4>
+            <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="avatar">
+            <p>자기소개 글</p>
+            <ul>
+                <li>이메일: cjw8242@gmail.com</li>
+                <li>전화번호: 010-3018-8242</li>
+            </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="skill" class="mt-5 p-4">
+        <h4>Skill</h4>
+        <div class="mb-3">HTML <div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated" data-skill="20%" style="width: 0%"><span class="progress-text">20%</span></div></div></div>
+        <div class="mb-3">C++ <div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" data-skill="50%" style="width: 0%"><span class="progress-text">50%</span></div></div></div>
+        <div class="mb-3">JavaScript <div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-info" data-skill="15%" style="width: 0%"><span class="progress-text">15%</span></div></div></div>
+        <div class="mb-3">Python <div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" data-skill="35%" style="width: 0%"><span class="progress-text">35%</span></div></div></div>
+    </section>
+
+    <section id="stack" class="mt-5 p-4">
+        <h4>Stack</h4>
+        <table class="table table-bordered">
+            <thead><tr><th>언어</th><th>숙련도</th></tr></thead>
+            <tbody>
+            <tr><td>HTML</td><td>하</td></tr>
+            <tr><td>C++</td><td>중</td></tr>
+            <tr><td>JavaScript</td><td>하</td></tr>
+            <tr><td>Python</td><td>하</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="closing" class="mt-5 p-0 closing-section">
+        <div class="closing-overlay">
+            <h4 class="mb-3 fw-bold">마무리</h4>
+            <p>읽어주셔서 감사합니다.</p>
+        </div>
+    </section>
+</div>

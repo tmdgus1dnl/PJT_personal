@@ -1,0 +1,26 @@
+<!-- Weather Page (참고 파일 스타일/동작 반영) -->
+<div class="weather-page w-100" id="weather-page">
+    <!-- 상단 툴바: 보기 전환 -->
+    <div class="weather-toolbar">
+    <div class="fw-bold">시간대별 예보</div>
+    <button id="modeToggle" class="btn btn-outline-dark btn-sm" aria-label="보기 전환">
+        <i class="bi bi-layout-split"></i>
+    </button>
+    </div>
+
+    <!-- 위치/업데이트 -->
+    <div class="forecast-header">
+    <div class="left">
+        <i class="bi bi-geo-alt"></i>
+        <span id="placeName">현재 위치</span>
+    </div>
+    <div class="right">
+        <span id="updatedAt">업데이트: --:--</span>
+    </div>
+    </div>
+
+    <!-- 카드 트랙 -->
+    <div id="forecastTrack" class="forecast-track" tabindex="0" aria-label="시간대별 예보 카드 목록">
+    <!-- JS가 카드 생성 -->
+    </div>
+</div>

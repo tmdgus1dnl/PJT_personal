@@ -1,0 +1,478 @@
+    body,
+    html {
+      width: 100vw;
+      height: 100vh;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      overflow: auto;
+      background: url('./assets/map.jpg') no-repeat center center fixed;
+      background-size: cover;
+      scroll-behavior: smooth;
+    }
+
+    .tablet {
+      display: flex;
+      flex-direction: column;
+      width: 1200px;
+      height: 600px;
+      max-width: 95vw;
+      max-height: 90vh;
+      margin: 40px auto;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0, 0, 0, .6);
+      background: #000;
+      color: #fff;
+    }
+
+    .tablet-body {
+      display: flex;
+      height: 100%;
+      min-height: 0;
+      overflow: visible;
+    }
+
+    .main-panel,
+    .portfolio,
+    .weather-page {
+      width: 70%;
+      height: 100%;
+      flex: 1 1 0;
+      min-width: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar {
+      width: 30%;
+      min-width: 240px;
+      max-width: 360px;
+      height: 100%;
+      flex-shrink: 0;
+      background: #111;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .profile-circle {
+      background: linear-gradient(135deg, #7f00ff, #00d2ff);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      font-weight: bold;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stats {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .fuel {
+      color: #1fd163;
+    }
+
+    .nav-button {
+      background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+      border: none;
+      border-radius: 15px;
+      padding: 15px;
+      text-align: center;
+      font-size: 18px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .main-panel {
+      padding: 30px;
+      background: linear-gradient(to bottom right, #1f2d3d, #111);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* 지도 + 검색 오버레이 */
+    #mainMap {
+      width: 100%;
+      height: 300px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+
+    .map-wrap {
+      position: relative;
+    }
+
+    .map-search-overlay {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      z-index: 5;
+      background: rgba(255, 255, 255, .95);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+      color: #000;
+      padding: 12px;
+      display: none;
+    }
+
+    .map-search-overlay.open {
+      display: block;
+    }
+
+    .map-search-head {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .map-search-close {
+      border: none;
+      background: transparent;
+      font-size: 20px;
+      line-height: 1;
+      color: #000;
+      opacity: .6;
+    }
+
+    .map-search-close:hover {
+      opacity: 1;
+    }
+
+    #search-results {
+      max-height: 200px;
+      overflow: auto;
+      margin-top: 8px;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    #search-results .item {
+      padding: 6px 8px;
+      border-bottom: 1px solid #ddd;
+      cursor: pointer;
+      color: #000;
+    }
+
+    #search-results .item:hover {
+      background: #f5f5f5;
+    }
+
+    .info-bar {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      background: #000;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .info-bar span {
+      font-weight: bold;
+    }
+
+    .footer-home {
+      background: #000;
+      text-align: center;
+      padding: 10px 0;
+      border-top: 1px solid #333;
+    }
+
+    .footer-home i,
+    .footer-home span {
+      color: #0d6efd;
+    }
+
+    .portfolio,
+    .weather-page {
+      padding: 2rem;
+      animation: slideInLeft .5s forwards;
+      background: #fff;
+      color: #000;
+      height: 100%;
+      max-height: 100vh;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .carousel-inner {
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .slide-in-left {
+      animation: slideInLeft .5s forwards;
+    }
+
+    .slide-out-right {
+      animation: slideOutRight .5s forwards;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOutRight {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+
+      to {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+
+    .closing-section {
+      position: relative;
+      min-height: 240px;
+      background-image: url('./assets/close.jpg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 15px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .closing-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: #fff;
+      width: 100%;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, .8);
+      font-size: 1.3rem;
+      padding: 2rem 0;
+    }
+
+    .closing-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, .55);
+      z-index: 1;
+    }
+
+    /* ===== Weather Page (reference 스타일 반영) ===== */
+    .weather-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .forecast-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f4f5f7;
+      border: 1px solid #e7e7ef;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+    }
+
+    .forecast-header .left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+
+    .forecast-header .right {
+      font-size: 12px;
+      color: #555;
+    }
+
+    /* 트랙: 가로/세로 모드 */
+    #weather-page.mode-horizontal .forecast-track {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 4px;
+      scroll-snap-type: x mandatory;
+    }
+
+    #weather-page.mode-horizontal .forecast-card {
+      min-width: 220px;
+      scroll-snap-align: start;
+    }
+
+    #weather-page.mode-vertical .forecast-track {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .forecast-card {
+      background: #fff;
+      border: 1px solid #e7e7ef;
+      border-radius: 12px;
+      padding: 16px;
+      /* 패딩 조금 늘림 */
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 160px;
+      /* ★ 카드 높이 늘림 (원래 없었음) */
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .card-time {
+      font-weight: 700;
+    }
+
+    .card-place {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .card-mid {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-icon i {
+      font-size: 28px;
+    }
+
+    .card-temp {
+      font-size: 26px;
+      /* 22px → 26px */
+      font-weight: 800;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      /* 13px → 14px */
+    }
+
+    .card-extra {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      color: #333;
+      margin-top: 6px;
+    }
+
+    .extra-item .label {
+      color: #666;
+      margin-right: 4px;
+    }
+
+    .rotate-90 {
+      transform: rotate(90deg);
+    }
+
+    /* skeleton */
+    .skeleton {
+      position: relative;
+      overflow: hidden;
+      background: #ececf3;
+      border-radius: 12px;
+      height: 160px;
+      /* ★ 기존 110px → 160px */
+      border: 1px solid #e7e7ef;
+    }
+
+    .skeleton::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .55) 50%, rgba(255, 255, 255, 0) 100%);
+      transform: translateX(-100%);
+      animation: shimmer 1.2s infinite;
+    }
+
+    @keyframes shimmer {
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    /* 다크 표 + 모노 타임스탬프 */
+    .log-page {
+      color: #e6e6e6;
+    }
+
+    .table.log-table {
+      --bs-table-color: #e6e6e6;
+      --bs-table-bg: #121416;
+    }
+
+    .text-mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    /* 레벨별 좌측 보더 강조 */
+    .lv-row-success {
+      border-left: 4px solid var(--log-info, #2ecc71);
+    }
+
+    .lv-row-warning {
+      border-left: 4px solid var(--log-warn, #f1c40f);
+    }
+
+    .lv-row-danger {
+      border-left: 4px solid var(--log-error, #e74c3c);
+    }
+
+    /* 작은 도넛 */
+    .donut {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: conic-gradient(var(--log-info, #2ecc71) 0 33%, var(--log-warn, #f1c40f) 33% 66%, var(--log-error, #e74c3c) 66% 100%);
+      position: relative;
+    }
+
+    .donut::after {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      background: #121416;
+      border-radius: 50%;
+    }
+
+    /* 색 변수 */
+    :root {
+      --log-info: #2ecc71;
+      --log-warn: #f1c40f;
+      --log-error: #e74c3c;
+    }
