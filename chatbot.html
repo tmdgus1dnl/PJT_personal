@@ -1,0 +1,19 @@
+<!-- Chatbot Page (AI 분석용)
+     이 파일은 기존 인포테인먼트 UI에 AI 챗봇 기능을 추가하기 위한
+     부분 화면입니다. main.js 의 SPA 라우팅에서 이 파일을 fetch
+     하여 #main-ui 컨테이너에 삽입합니다. -->
+<div class="chatbot-page w-100" id="chatbot-page">
+  <!-- 채팅 메시지 영역. 스크롤이 가능하고 오래된 메시지를 유지합니다. -->
+  <div id="chat-area" class="chat-area"></div>
+
+  <!-- 입력창과 버튼 영역. 입력창은 채팅 하단에 고정됩니다. -->
+  <div class="chat-input-container">
+    <button id="voice-button" class="btn btn-secondary" title="음성 입력">
+      <i class="bi bi-mic-fill"></i>
+    </button>
+    <textarea id="chat-input" class="form-control flex-grow-1" rows="1" placeholder="메시지를 입력하세요..."></textarea>
+    <button id="send-button" class="btn btn-primary" title="전송">
+      <i class="bi bi-send-fill"></i>
+    </button>
+  </div>
+</div>

@@ -476,3 +476,122 @@
       --log-warn: #f1c40f;
       --log-error: #e74c3c;
     }
+/* chatbot.css
+   AI 챗봇 페이지 전용 스타일 정의. 기존 main.css와 결합하여 사용합니다. */
+.chatbot-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100vh;
+  overflow: hidden;
+  background: #fff;
+  color: #000;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* 채팅 메시지 영역 */
+.chat-area {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.message {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.message .avatar {
+  width: 32px;
+  height: 32px;
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message .bubble {
+  max-width: 70%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 12px;
+  position: relative;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+.message.user .bubble {
+  background: #0d6efd;
+  color: #fff;
+  margin-left: auto;
+}
+
+.message.assistant .bubble {
+  background: #f1f1f5;
+  color: #000;
+}
+
+/* 로딩 상태 애니메이션 */
+.bubble.loading {
+  position: relative;
+}
+
+.bubble.loading::after {
+  content: '';
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #ccc;
+  border-top-color: #0d6efd;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.8s linear infinite;
+  margin-left: 0.5rem;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 입력창 영역 */
+.chat-input-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-top: 1px solid #ddd;
+  padding-top: 0.5rem;
+}
+
+.chat-input-container textarea {
+  resize: none;
+  min-height: 2.5rem;
+  max-height: 6rem;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.chat-input-container button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 음성 인식 버튼 활성 상태 */
+#voice-button.active {
+  background: #e83e8c;
+  color: #fff;
+}
+
+/* 음성 인식 상태 표시 */
+.voice-status {
+  font-size: 0.875rem;
+  margin-left: 2.25rem;
+}

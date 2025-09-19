@@ -2,6 +2,7 @@ import { HomePage } from './navigation.js';
 import { WeatherPage } from './weather.js';
 import { PortfolioPage } from './portfolio.js';
 import { LogPage } from './log.js';
+import { ChatbotPage } from './chatbot.js';
 
 // =========================
 //  SPA 라우팅/화면전환 공통
@@ -11,6 +12,7 @@ const VIEW = {
   weather: "weather.html",
   mypage: "portfolio.html",
   logs: "log.html"
+  chatbot: 'chatbot.html',
 };
 
 const btnMyPage = document.getElementById("btn-mypage");
@@ -18,12 +20,13 @@ const btnWeather = document.getElementById("btn-weather");
 const btnHome = document.getElementById("btn-home");
 const mainUI = document.getElementById("main-ui");
 const btnLogs = document.getElementById("btn-logs");
+const btnChatbot = document.getElementById('btn-chatbot');
 
 let isTransitioning = false;
 let currentCleanup = null; // 페이지 변경 시 리스너/타이머 해제용
 
 function setActive(btnId) {
-  ["btn-home", "btn-weather", "btn-mypage", "btn-logs"].forEach(id => {
+  ["btn-home", "btn-weather", "btn-mypage", "btn-logs", "btn-chatbot"].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.toggle("active", id === btnId);
   });
@@ -85,7 +88,7 @@ btnWeather?.addEventListener("click", () => loadView(VIEW.weather, "btn-weather"
 btnMyPage?.addEventListener("click", () => loadView(VIEW.mypage, "btn-mypage"));
 btnHome?.addEventListener("click", () => loadView(VIEW.home, "btn-home"));
 btnLogs?.addEventListener("click", () => loadView(VIEW.logs, "btn-logs"));
-
+btnChatbot?.addEventListener('click', () => loadView(VIEW.chatbot, 'btn-chatbot'));
 
 // =========================
 //  라우트 디스패처
@@ -103,6 +106,9 @@ function routeInit(root) {
   }
   if (root.querySelector("#log-page")) {
     return LogPage.init(root);
+  }
+  if (root.querySelector("#chatbot-page")) {
+    return ChatbotPage.init(root);
   }
   // 그 외는 home_navigation.html
   return HomePage.init(root);
