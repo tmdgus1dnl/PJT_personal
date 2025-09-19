@@ -80,10 +80,10 @@
     }
 
     .nav-buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 두 열, 동일한 너비 */
-  gap: 1rem;                            /* 버튼 사이 간격 */
-}
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
 
     .nav-button {
       background: linear-gradient(135deg, #00d2ff, #3a7bd5);
