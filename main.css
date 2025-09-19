@@ -55,7 +55,7 @@
       padding: 30px 20px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
     }
 
     .profile-circle {
@@ -78,6 +78,12 @@
     .fuel {
       color: #1fd163;
     }
+
+    .nav-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 두 열, 동일한 너비 */
+  gap: 1rem;                            /* 버튼 사이 간격 */
+}
 
     .nav-button {
       background: linear-gradient(135deg, #00d2ff, #3a7bd5);
