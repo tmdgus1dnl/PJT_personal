@@ -26,6 +26,13 @@ import {
   orderBy
 } from 'https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js';
 
+const API_BASE = "http://localhost:8080";
+// 대화 맥락(누적)
+const messages = [
+  { role: "system", content: "You are a helpful assistant." }
+];
+
+
 // Firebase 초기화(로그 페이지와 동일 함수 활용)
 function ensureApp() {
   return getApps().length ? getApp() : initializeApp(firebaseConfig);
@@ -102,28 +109,77 @@ export const ChatbotPage = (() => {
    */
   async function fetchAIResponse(userText) {
     // 예시: 1.5초 후에 사용자 입력을 포함한 응답을 반환
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    return 'AI 응답 예시: "' + userText + '"에 대한 분석 결과입니다.';
+    // await new Promise((resolve) => setTimeout(resolve, 1500));
+    // return 'AI 응답 예시: "' + userText + '"에 대한 분석 결과입니다.';
+      const resp = await fetch(`${API_BASE}/api/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages })
+      });
+      if (!resp.ok) {
+        const text = await resp.text().catch(() => "");
+        throw new Error(`API 호출 실패: ${resp.status} ${text}`);
+      }
+      const data = await resp.json();
+      return data.content ?? "";
   }
 
   /** 사용자의 입력을 처리합니다. */
   async function handleUserInput(root, text) {
+    // if (!text.trim()) return;
+    // appendMessage(root, 'user', text);
+    // await saveMessage('user', text);
+    // // 로딩 메시지를 먼저 추가합니다.
+    // const loadingMsg = appendMessage(root, 'assistant', '...응답 생성 중...', true);
+    // try {
+    //   const aiResponse = await fetchAIResponse(text.trim());
+    //   const bubble = loadingMsg.querySelector('.bubble');
+    //   bubble.classList.remove('loading');
+    //   bubble.textContent = aiResponse;
+    //   await saveMessage('assistant', aiResponse);
+    //   speakText(aiResponse);
+    // } catch (err) {
+    //   const bubble = loadingMsg.querySelector('.bubble');
+    //   bubble.classList.remove('loading');
+    //   bubble.textContent = '응답을 불러오지 못했습니다.';
+    // }
     if (!text.trim()) return;
-    appendMessage(root, 'user', text);
-    await saveMessage('user', text);
-    // 로딩 메시지를 먼저 추가합니다.
+    const userText = text.trim();
+
+    // 1) 사용자 말풍선
+    appendMessage(root, 'user', userText);
+
+    // 2) 대화 맥락에 user 누적
+    messages.push({ role: 'user', content: userText });
+
+    // 3) (선택) Firebase 저장 유지 시 그대로 두기
+    await saveMessage('user', userText);
+
+    // 4) 로딩 말풍선
     const loadingMsg = appendMessage(root, 'assistant', '...응답 생성 중...', true);
+
     try {
-      const aiResponse = await fetchAIResponse(text.trim());
+      // 5) GPT 호출 (messages 전체 전송)
+      const aiResponse = await fetchAIResponse();
+
+      // 6) 로딩 제거 + 실제 텍스트 반영
       const bubble = loadingMsg.querySelector('.bubble');
       bubble.classList.remove('loading');
       bubble.textContent = aiResponse;
+
+      // 7) 대화 맥락에 assistant 누적
+      messages.push({ role: 'assistant', content: aiResponse });
+
+      // 8) (선택) Firebase 저장 유지 시 그대로 두기
       await saveMessage('assistant', aiResponse);
+
+      // 9) 읽어주기
       speakText(aiResponse);
     } catch (err) {
       const bubble = loadingMsg.querySelector('.bubble');
       bubble.classList.remove('loading');
       bubble.textContent = '응답을 불러오지 못했습니다.';
+      console.error(err);
     }
   }
 
