@@ -11,7 +11,7 @@ const VIEW = {
   home: "home_navigation.html",
   weather: "weather.html",
   mypage: "portfolio.html",
-  logs: "log.html"
+  logs: "log.html",
   chatbot: 'chatbot.html',
 };
 
@@ -88,7 +88,7 @@ btnWeather?.addEventListener("click", () => loadView(VIEW.weather, "btn-weather"
 btnMyPage?.addEventListener("click", () => loadView(VIEW.mypage, "btn-mypage"));
 btnHome?.addEventListener("click", () => loadView(VIEW.home, "btn-home"));
 btnLogs?.addEventListener("click", () => loadView(VIEW.logs, "btn-logs"));
-btnChatbot?.addEventListener('click', () => loadView(VIEW.chatbot, 'btn-chatbot'));
+btnChatbot?.addEventListener("click", () => loadView(VIEW.chatbot, "btn-chatbot"));
 
 // =========================
 //  라우트 디스패처
