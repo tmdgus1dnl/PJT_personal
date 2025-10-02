@@ -4,67 +4,79 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Smart Dashboard</title>
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="main.css" />
-  <!-- libs -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=56a62e20da8538fcf059056339573539&libraries=services"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="./navigation.js"></script>
-    <script type="module" src="./weather.js"></script>
-    <script type="module" src="./portfolio.js"></script>
-    <script type="module" src="./main.js"></script>
-    <script type="module" src="./chatbot.js"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="main.css" />
+  <!-- 외부 라이브러리 -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=56a62e20da8538fcf059056339573539&libraries=services"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- 모듈 스크립트: 인증/기능 -->
+  <script type="module" src="./firebase.js"></script>
+  <script type="module" src="./auth.js"></script>
+  <script type="module" src="./navigation.js"></script>
+  <script type="module" src="./weather.js"></script>
+  <script type="module" src="./portfolio.js"></script>
+  <script type="module" src="./log.js"></script>
+  <script type="module" src="./chatbot.js"></script>
+  <script type="module" src="./profile.js"></script>
+  <script type="module" src="./login.js"></script>
+  <script type="module" src="./signup.js"></script>
+  <script type="module" src="./settings.js"></script>
+  <script type="module" src="./admin.js"></script>
+  <script type="module" src="./main.js"></script>
 </head>
-
 <body>
-    <div class="container-fluid">
-        <div class="tablet">
-            <div class="tablet-body">
-                <div class="sidebar">
-                    <!-- 프로필과 버튼을 포함하는 컨테이너 -->
-                    <div class="sidebar-content">
-                        <div class="profile-circle">SH</div>
-                        <div class="mt-2">
-                            <strong>한승현</strong><br><small>SSAFY 14기</small>
-                        </div>
-                        <div class="stats mt-4">
-                            <div>Today's Study <span class="float-end">210 min</span></div>
-                            <div>Distance to Employment <span class="float-end">100 km</span></div>
-                            <div>Fuel Level <span class="float-end fuel">99%</span></div>
-                        </div>
-                    
-                        <!-- Weather & My Page & ChatBot -->
-                        <div class="nav-buttons mt-4">
-                            <button class="nav-button mt-3" id="btn-weather">
-                                <i class="bi bi-cloud-sun"></i><br>Weather
-                            </button>
-                            <button class="nav-button mt-3" id="btn-mypage">
-                                <i class="bi bi-person-lines-fill"></i><br>My Page
-                            </button>
-                            <button class="nav-button mt-3" id="btn-logs">
-                                <i class="bi bi-journal-text"></i><br>Logs
-                            </button>
-                            <button class="nav-button mt-3" id="btn-chatbot">
-                                <i class="bi bi-chat-dots"></i><br>Chat
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 메인 대시보드 -->
-                <div class="main-panel" id="main-ui"></div>
+  <div class="container-fluid">
+    <div class="tablet">
+      <div class="tablet-body">
+        <div class="sidebar">
+          <!-- 사이드바 내용 -->
+          <div class="sidebar-content">
+            <div class="profile-circle">S</div>
+            <div class="mt-2">
+              <strong>SSAFY</strong><br><small>관리자</small>
             </div>
-
-            <div class="footer-home">
-                <div id="btn-home" style="display: inline-block; cursor: pointer;">
-                    <i class="bi bi-house-door-fill"></i>
-                    <span>Home</span>
-                </div>
+            <div class="stats mt-4">
+              <div>Today's Study <span class="float-end">210 min</span></div>
+              <div>Distance to Employment <span class="float-end">100 km</span></div>
+              <div>Fuel Level <span class="float-end fuel">99%</span></div>
             </div>
+            <!-- 네비게이션 버튼 -->
+            <div class="nav-buttons mt-4">
+              <button class="nav-button mt-3" id="btn-weather">
+                <i class="bi bi-cloud-sun"></i><br>Weather
+              </button>
+              <button class="nav-button mt-3" id="btn-mypage">
+                <i class="bi bi-person-lines-fill"></i><br>My Page
+              </button>
+              <button class="nav-button mt-3" id="btn-chatbot">
+                <i class="bi bi-chat-dots"></i><br>Chat
+              </button>
+              <button class="nav-button mt-3" id="btn-profile">
+                <i class="bi bi-people"></i><br>Profiles
+              </button>
+              <button class="nav-button mt-3" id="btn-settings">
+                <i class="bi bi-gear"></i><br>Settings
+              </button>
+              <button class="nav-button mt-3" id="btn-settings">
+                <i class="bi bi-phone"></i><br>Phone
+              </button>
+            </div>
+          </div>
         </div>
+        <!-- 메인 대시보드 -->
+        <div class="main-panel" id="main-ui"></div>
+      </div>
+      <div class="footer-home">
+        <div id="btn-home" style="display: inline-block; cursor: pointer;">
+          <i class="bi bi-house-door-fill"></i>
+          <span>Home</span>
+        </div>
+      </div>
     </div>
+  </div>
 </body>
-
 </html>

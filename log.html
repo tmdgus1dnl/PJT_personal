@@ -1,3 +1,6 @@
+<!-- log.html
+     Telematics 로그를 표시하는 페이지입니다. 필터 기능과 표를
+     포함하며 Firebase Firestore에서 데이터를 실시간으로 구독합니다. -->
 <div id="log-page" class="log-page w-100">
   <div class="p-4">
     <div class="d-flex align-items-center justify-content-between mb-3">
@@ -6,7 +9,6 @@
         <div class="donut" id="log-donut" title="Level ratio"></div>
       </div>
     </div>
-
     <!-- 툴바 -->
     <div class="row g-2 mb-3">
       <div class="col-md-4">
@@ -15,26 +17,21 @@
           <input id="log-search" class="form-control" placeholder="Search message / user …">
         </div>
       </div>
-
       <div class="col-md-3">
         <div class="btn-group btn-group-sm w-100" role="group" aria-label="Level filter">
-          <input type="checkbox" class="btn-check" id="lv-info"  autocomplete="off">
+          <input type="checkbox" class="btn-check" id="lv-info" autocomplete="off">
           <label class="btn btn-outline-success" for="lv-info">INFO</label>
-
-          <input type="checkbox" class="btn-check" id="lv-warn"  autocomplete="off">
+          <input type="checkbox" class="btn-check" id="lv-warn" autocomplete="off">
           <label class="btn btn-outline-warning" for="lv-warn">WARN</label>
-
           <input type="checkbox" class="btn-check" id="lv-error" autocomplete="off">
-          <label class="btn btn-outline-danger"  for="lv-error">CRITICAL</label>
+          <label class="btn btn-outline-danger" for="lv-error">CRITICAL</label>
         </div>
       </div>
-
       <div class="col-md-2">
         <!-- 유저 필터: 텍스트 + datalist -->
         <input id="log-user" list="user-list" class="form-control form-control-sm" placeholder="User (optional)">
         <datalist id="user-list"></datalist>
       </div>
-
       <div class="col-md-3 d-flex gap-2">
         <select id="log-range" class="form-select form-select-sm">
           <option value="1h">Last 1h</option>
@@ -43,10 +40,9 @@
           <option value="custom">Custom…</option>
         </select>
         <input id="from" type="datetime-local" class="form-control form-control-sm d-none">
-        <input id="to"   type="datetime-local" class="form-control form-control-sm d-none">
+        <input id="to" type="datetime-local" class="form-control form-control-sm d-none">
       </div>
     </div>
-
     <!-- 표 -->
     <div class="table-responsive">
       <table class="table table-sm table-dark table-hover align-middle log-table">

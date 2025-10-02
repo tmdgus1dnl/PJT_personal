@@ -1,0 +1,43 @@
+<!-- settings.html
+     사용자 설정 페이지입니다. 로그인한 사용자가 닉네임, 비밀번호, 배경 이미지 등을
+     변경할 수 있는 화면입니다. SSAFY 기본 계정(게스트)은 설정을 변경할 수
+     없으며, 안내 메시지만 표시됩니다. -->
+<div id="settings-page" class="w-100 p-3">
+  <h2 class="mb-4">설정</h2>
+  <!-- 게스트 계정 안내 메시지 -->
+  <div id="settings-message" class="alert alert-warning d-none"></div>
+
+  <!-- 닉네임 변경 -->
+  <form id="nickname-form" class="mb-3">
+    <label for="settings-nickname" class="form-label">닉네임</label>
+    <input type="text" id="settings-nickname" class="form-control" required>
+    <button type="submit" class="btn btn-primary mt-2">닉네임 변경</button>
+  </form>
+
+  <!-- 비밀번호 변경 -->
+  <form id="password-form" class="mb-3">
+    <label for="settings-password" class="form-label">새 비밀번호</label>
+    <input type="password" id="settings-password" class="form-control" required>
+    <button type="submit" class="btn btn-primary mt-2">비밀번호 변경</button>
+  </form>
+
+  <!-- 배경 이미지 변경 -->
+  <form id="background-form" class="mb-3">
+    <label for="settings-background" class="form-label">배경 이미지 업로드</label>
+    <input type="file" id="settings-background" class="form-control" accept="image/*">
+    <button type="submit" class="btn btn-primary mt-2">배경 변경</button>
+  </form>
+
+  <!-- 관리자(SSAFY) 전용 버튼 -->
+  <div id="admin-buttons" class="mt-4 d-none">
+    <button id="btn-settings-log" class="btn btn-outline-secondary me-2">
+      <i class="bi bi-journal-text"></i> Log
+    </button>
+    <button id="btn-settings-admin" class="btn btn-outline-danger">
+      <i class="bi bi-shield-lock"></i> Admin
+    </button>
+  </div>
+
+  <!-- 일반 사용자용 로그아웃 -->
+  <button id="btn-logout" class="btn btn-secondary mt-4">로그아웃</button>
+</div>

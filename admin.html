@@ -1,0 +1,21 @@
+<!-- admin.html
+     관리자 메뉴 페이지입니다. 관리자 권한을 가진 사용자가 모든 사용자의
+     목록을 조회하고 권한을 변경할 수 있습니다. 관리자 권한이 없는
+     계정으로 접근 시 안내 메시지가 표시됩니다. -->
+<div id="admin-page" class="w-100 p-3">
+  <h2 class="mb-4">관리자 메뉴</h2>
+  <div id="admin-message" class="alert alert-warning d-none"></div>
+  <div id="admin-content" class="d-none">
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th>닉네임</th>
+          <th>이메일</th>
+          <th>권한</th>
+          <th>동작</th>
+        </tr>
+      </thead>
+      <tbody id="user-table"></tbody>
+    </table>
+  </div>
+</div>
