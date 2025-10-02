@@ -1,7 +1,7 @@
 // user.js
 // Handles user state, greeting UI and permission checks within the SPA.
 
-import { onAuth, getUserProfile } from './auth.js';
+import { onAuth, getCurrentUser } from './auth.js';
 
 // Module level state representing the currently selected or logged in user.
 // The default SSAFY admin account is represented by uid === 'default'.
@@ -23,10 +23,7 @@ const state = {
  * @param {() => void} [opts.onSettings] Called when the user clicks the settings icon.
  */
 function updateGreeting(opts = {}) {
-  // Attempt to locate a header element. Fallback to body if none.
-  let parent = document.querySelector('header');
-  if (!parent) parent = document.body;
-
+  const user = getCurrentUser();
   let greeting = document.getElementById('greeting');
   if (!greeting) {
     greeting = document.createElement('div');
@@ -45,11 +42,10 @@ function updateGreeting(opts = {}) {
     greeting.style.display = 'flex';
     greeting.style.alignItems = 'center';
     greeting.style.gap = '6px';
-    parent.appendChild(greeting);
   }
   // Clear previous contents
   greeting.innerHTML = '';
-  greeting.textContent = `안녕하세요! ${state.nickname}님`;
+  greeting.textContent = `안녕하세요! ${user.nickname}님`;
 
   // Only show the profile switch and settings icons when callbacks are provided.
   if (opts.onProfileSwitch) {
@@ -181,9 +177,6 @@ export function canAccessChatbot() {
  * nickname or role if necessary. Mutations should only occur within
  * this module.
  */
-export function getCurrentUser() {
-  return { ...state };
-}
 
 export function refreshGreeting(opts = {}) {
   updateGreeting(opts);

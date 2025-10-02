@@ -1,4 +1,3 @@
-// settings.js (교체본)
 // - SPA 라우팅 호환
 // - offAuth / nickInput 레퍼런스 에러 제거
 // - 게스트(SSAFY)면 Log/Admin 버튼만 보이게
